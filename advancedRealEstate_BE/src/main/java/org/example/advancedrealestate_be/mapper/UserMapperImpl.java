@@ -186,8 +186,6 @@ import org.springframework.stereotype.Component;
 //package org.example.advancedrealestate_be.mapper;
 
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.example.advancedrealestate_be.dto.request.UserCreationRequest;
 import org.example.advancedrealestate_be.dto.request.UserUpdateRequest;
@@ -284,7 +282,9 @@ public class UserMapperImpl implements UserMapper {
         String avatarUrl = null;
         if (user.getAvatar() != null) {
             String fileName = Paths.get(user.getAvatar()).getFileName().toString();
-            avatarUrl = protocol + serverHost + ":" + serverPort + "/api/user/" + fileName;
+            // avatarUrl = protocol + serverHost + ":" + serverPort + "/api/user/" + fileName;
+            avatarUrl = String.format("%s://%s:%s/api/user/%s",
+                    protocol, serverHost, serverPort, fileName);
         }
 
         // Build UserResponse

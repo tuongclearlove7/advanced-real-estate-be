@@ -1,6 +1,7 @@
 server:
   port: 9090
-  host: ${SERVER_HOST:0.0.0.0}  
+  # https://advanced-real-estate-be.onrender.com
+  host: ${SERVER_HOST:advanced-real-estate-be.onrender.com}  
 
 app:
   protocol: ${APP_PROTOCOL:https}
