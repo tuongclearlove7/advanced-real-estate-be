@@ -1,42 +1,27 @@
-# # Sử dụng base image với OpenJDK 21
-# FROM openjdk:21-jdk-slim
+# ---------- STAGE 1: Build ứng dụng ----------
+FROM maven:3.9.4-eclipse-temurin-21 AS build
 
-# # Cài đặt các công cụ cần thiết (curl, git, bash, dos2unix, và Maven)
-# RUN apt-get update && apt-get install -y \
-#     curl \
-#     git \
-#     bash \
-#     dos2unix \
-#     maven \
-#     && rm -rf /var/lib/apt/lists/*
-
-# # Đặt thư mục làm việc trong container
-# WORKDIR /app
-
-# # Sao chép tệp pom.xml và thư mục mã nguồn
-# COPY pom.xml ./
-# COPY src ./src
-
-# # Kiểm tra xem Maven đã được cài đặt chính xác
-# RUN mvn -v
-
-# # Cài đặt các phụ thuộc Maven
-# RUN mvn clean install -DskipTests
-
-# # Chạy ứng dụng Spring Boot
-# CMD ["mvn", "spring-boot:run"]
-
-# -----------------------------------------------------------------------------------------------------------------
-# # Build jar trước khi đưa lên container: mvn clean package -DskipTests
-
-# Sử dụng base image với OpenJDK 21
-FROM openjdk:21-jdk-slim
-
-# Đặt thư mục làm việc trong container
+# Đặt thư mục làm việc
 WORKDIR /app
 
-# Sao chép tệp .jar đã xây dựng vào container
-COPY target/advancedRealEstate_BE-0.0.1-SNAPSHOT.jar advancedRealEstate_BE-0.0.1-SNAPSHOT.jar
+# Sao chép toàn bộ mã nguồn vào container
+COPY . .
 
-# Chạy ứng dụng Spring Boot từ .jar
-ENTRYPOINT ["java", "-jar", "advancedRealEstate_BE-0.0.1-SNAPSHOT.jar"]
+# Build ứng dụng, skip test để nhanh hơn
+RUN mvn clean package -DskipTests
+
+
+# ---------- STAGE 2: Chạy ứng dụng ----------
+FROM openjdk:21-jdk-slim
+
+# Đặt thư mục làm việc
+WORKDIR /app
+
+# Copy file JAR từ stage 1 sang stage 2
+COPY --from=build /app/target/*.jar app.jar
+
+# Mở cổng mặc định (hoặc Render sẽ tự điều phối)
+EXPOSE 8080
+
+# Khởi chạy ứng dụng Spring Boot
+ENTRYPOINT ["java", "-jar", "app.jar"]
