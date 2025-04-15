@@ -46,6 +46,8 @@ public class FileController {
         try {
             Path filePath = Paths.get("/tmp/uploads/building/images").resolve(fileName);
             Resource resource = new UrlResource(filePath.toUri());
+            System.out.println("Kiểm tra file tại: " + filePath.toAbsolutePath());
+            System.out.println("File tồn tại: " + resource.exists());
 
             if (resource.exists() || resource.isReadable()) {
                 return ResponseEntity.ok()
