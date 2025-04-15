@@ -91,7 +91,7 @@ public class AuctionContractHandler implements AuctionContractService {
             || cccdBackImage != null && !cccdBackImage.isEmpty()
             || avatarImage != null && !avatarImage.isEmpty()
         ){
-            String uploadDir = "uploads/auction-contract/images/";
+            String uploadDir = "/tmp/uploads/auction-contract/images/";
             File directory = new File(uploadDir);
             if (!directory.exists()) {
                 directory.mkdirs();

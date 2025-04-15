@@ -84,8 +84,8 @@ public class AuctionDetailHandler implements AuctionDetailService {
             for (String path : imagePaths) {
                 if (!path.trim().isEmpty()) {
                     String fileName = Paths.get(path).getFileName().toString();
-                    String url = String.format("%s://%s:%s/api/user/building/%s",
-                            protocol, serverHost, serverPort, fileName);
+                    String url = String.format("%s://%s/api/user/building/%s",
+                            protocol, serverHost, fileName);
                     buildingImageUrl.add(url);
                 }
             }

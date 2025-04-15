@@ -36,15 +36,15 @@ public class AuctionContractMapper {
             for (String path : imagePaths) {
                 if (!path.trim().isEmpty()) {
                     String fileName = Paths.get(path).getFileName().toString();
-                    String url = String.format("%s://%s:%s/api/user/building/%s",
-                            protocol, serverHost, serverPort, fileName);
+                    String url = String.format("%s://%s/api/user/building/%s",
+                            protocol, serverHost, fileName);
                     buildingImageUrl.add(url);
                 }
             }
         }
 
-        String contractImagePath = auctionContract.getContractImage() != null ? String.format("http://%s:%s/api/user/auction-contract/%s",
-                serverHost, serverPort, Paths.get(auctionContract
+        String contractImagePath = auctionContract.getContractImage() != null ? String.format("%s://%s/api/user/auction-contract/%s",
+                protocol, serverHost, Paths.get(auctionContract
                 .getContractImage()).getFileName().toString()) : null;
 
         AuctionContractResponse dto = AuctionContractResponse.builder()
@@ -64,13 +64,13 @@ public class AuctionContractMapper {
                 .paymentStatus(auctionContract.getPaymentStatus())
                 .numberPayment(auctionContract.getNumberPayment())
                 .contractStatus(auctionContract.getContractStatus())
-                .cccd_front(String.format("http://%s:%s/api/user/auction-contract/%s",
+                .cccd_front(String.format("https://%s/api/user/auction-contract/%s",
                 serverHost, serverPort, Paths.get(auctionContract
                 .getCccd_front()).getFileName().toString()))
-                .cccd_back(String.format("http://%s:%s/api/user/auction-contract/%s",
+                .cccd_back(String.format("https://%s/api/user/auction-contract/%s",
                 serverHost, serverPort, Paths.get(auctionContract
                 .getCccd_back()).getFileName().toString()))
-                .avatar(String.format("http://%s:%s/api/user/auction-contract/%s",
+                .avatar(String.format("https://%s/api/user/auction-contract/%s",
                 serverHost, serverPort, Paths.get(auctionContract
                 .getAvatar()).getFileName().toString()))
                 .contractImage(contractImagePath)

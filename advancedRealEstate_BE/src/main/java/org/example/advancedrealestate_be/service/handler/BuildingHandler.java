@@ -56,7 +56,7 @@ public class BuildingHandler implements BuildingService {
             List<MultipartFile> images = request.getImage();
             if (images != null && !images.isEmpty()) {
                 // Đường dẫn thư mục lưu trữ
-                String uploadDir = "uploads/buiding/images/";
+                String uploadDir = "/tmp/uploads/buiding/images/";
                 File directory = new File(uploadDir);
                 if (!directory.exists()) {
                     directory.mkdirs();
@@ -109,7 +109,7 @@ public class BuildingHandler implements BuildingService {
             List<MultipartFile> images = request.getImage();
             if (images != null && !images.isEmpty()) {
                 // Lưu các ảnh mới
-                String uploadDir = "uploads/buiding/images/";
+                String uploadDir = "/tmp/uploads/buiding/images/";
                 File directory = new File(uploadDir);
                 if (!directory.exists()) {
                     directory.mkdirs();
