@@ -48,6 +48,7 @@ public class BuildingHandler implements BuildingService {
     }
     private static final String IMAGE_DIRECTORY = "uploads/buiding/images/";
 //    }
+   
     @Override
     public String createBuilding(BuildingCreateRequest request) {
         Building building = buildingMapper.toRequest(request);
@@ -55,23 +56,26 @@ public class BuildingHandler implements BuildingService {
         try {
             List<MultipartFile> images = request.getImage();
             if (images != null && !images.isEmpty()) {
-                // Đường dẫn thư mục lưu trữ
-                String uploadDir = "/tmp/uploads/buiding/images/";
+                String uploadDir = "/var/data/uploads/building/images/";
                 File directory = new File(uploadDir);
                 if (!directory.exists()) {
-                    directory.mkdirs();
+                    directory.mkdirs(); 
                 }
-
-                // Lưu ảnh và đường dẫn
                 List<String> imagePaths = new ArrayList<>();
                 for (MultipartFile image : images) {
                     String originalFilename = image.getOriginalFilename();
-                    String fileExtension = originalFilename.substring(originalFilename.lastIndexOf("."));
+                    String fileExtension = "";
+
+                    if (originalFilename != null && originalFilename.contains(".")) {
+                        fileExtension = originalFilename.substring(originalFilename.lastIndexOf("."));
+                    }
+
                     String fileName = UUID.randomUUID() + fileExtension;
                     Path filePath = Paths.get(uploadDir, fileName);
+
                     try {
                         Files.copy(image.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
-                        imagePaths.add(filePath.toString());
+                        imagePaths.add(fileName);
                     } catch (IOException e) {
                         throw new RuntimeException("Lưu ảnh thất bại: " + e.getMessage());
                     }
@@ -82,7 +86,6 @@ public class BuildingHandler implements BuildingService {
         } catch (DataIntegrityViolationException exception) {
             throw new AppException(ErrorCode.USER_EXISTED);
         }
-
         return "Đã thêm mới thành công!";
     }
 

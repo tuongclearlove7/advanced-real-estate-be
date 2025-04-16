@@ -44,10 +44,17 @@ public class FileController {
     @GetMapping("/building/{fileName:.+}")
     public ResponseEntity<Resource> getFileBuiding(@PathVariable String fileName) {
         try {
-            Path filePath = Paths.get("/tmp/uploads/building/images").resolve(fileName);
+            String uploadDir = "/var/data/uploads/building/images";
+            System.out.println("Thư mục upload Render: " + uploadDir);
+
+            Path filePath = Paths.get(uploadDir).resolve(fileName);
+            System.out.println("Full path: " + filePath.toAbsolutePath());
+            System.out.println("Exists: " + Files.exists(filePath));
+            System.out.println("Readable: " + Files.isReadable(filePath));
+
             Resource resource = new UrlResource(filePath.toUri());
-            System.out.println("Kiểm tra file tại: " + filePath.toAbsolutePath());
-            System.out.println("File tồn tại: " + resource.exists());
+            System.out.println("Resource exists: " + resource.exists());
+            System.out.println("Resource readable: " + resource.isReadable());
 
             if (resource.exists() || resource.isReadable()) {
                 return ResponseEntity.ok()
@@ -60,6 +67,7 @@ public class FileController {
             throw new RuntimeException("Lỗi khi tải file: " + fileName, e);
         }
     }
+
 
     @GetMapping("/auction-contract/{fileName:.+}")
     public ResponseEntity<Resource> getFileAuctionContract(@PathVariable String fileName) {
