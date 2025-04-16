@@ -46,9 +46,7 @@ public class BuildingHandler implements BuildingService {
         this.buildingRepository = buildingRepository;
         this.buildingMapper = buildingMapper;
     }
-    private static final String IMAGE_DIRECTORY = "uploads/buiding/images/";
-//    }
-   
+
     @Override
     public String createBuilding(BuildingCreateRequest request) {
         Building building = buildingMapper.toRequest(request);

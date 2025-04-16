@@ -91,7 +91,7 @@ public class AuctionContractHandler implements AuctionContractService {
             || cccdBackImage != null && !cccdBackImage.isEmpty()
             || avatarImage != null && !avatarImage.isEmpty()
         ){
-            String uploadDir = "/tmp/uploads/auction-contract/images/";
+            String uploadDir = "/var/data/uploads/auction-contract/images/";
             File directory = new File(uploadDir);
             if (!directory.exists()) {
                 directory.mkdirs();
@@ -187,14 +187,14 @@ public class AuctionContractHandler implements AuctionContractService {
             for (String path : imagePaths) {
                 if (!path.trim().isEmpty()) {
                     String fileName = Paths.get(path).getFileName().toString();
-                    String url = String.format("%s://%s:%s/api/user/building/%s",
-                            protocol, serverHost, serverPort, fileName);
+                    String url = String.format("%s://%s/api/user/building/%s",
+                            protocol, serverHost, fileName);
                     buildingImageUrl.add(url);
                 }
             }
         }
-        String contractImagePath = auctionContract.getContractImage() != null ? String.format("http://%s:%s/api/user/auction-contract/%s",
-                serverHost, serverPort, Paths.get(auctionContract
+        String contractImagePath = auctionContract.getContractImage() != null ? String.format("%s://%s/api/user/auction-contract/%s",
+                protocol, serverHost, Paths.get(auctionContract
                         .getContractImage()).getFileName().toString()) : null;
         AuctionContractResponse dto = AuctionContractResponse.builder()
                 .id(auctionContract.getId())
@@ -212,14 +212,14 @@ public class AuctionContractHandler implements AuctionContractService {
                 .paymentCode(auctionContract.getPaymentCode())
                 .numberPayment(auctionContract.getNumberPayment())
                 .description(auctionContract.getDescription())
-                .cccd_front(String.format("%s://%s:%s/api/user/auction-contract/%s",
-                protocol, serverHost, serverPort, Paths.get(auctionContract
+                .cccd_front(String.format("%s://%s/api/user/auction-contract/%s",
+                protocol, serverHost, Paths.get(auctionContract
                 .getCccd_front()).getFileName().toString()))
-                .cccd_back(String.format("%s://%s:%s/api/user/auction-contract/%s",
-                protocol, serverHost, serverPort, Paths.get(auctionContract
+                .cccd_back(String.format("%s://%s/api/user/auction-contract/%s",
+                protocol, serverHost, Paths.get(auctionContract
                 .getCccd_back()).getFileName().toString()))
-                .avatar(String.format("%s://%s:%s/api/user/auction-contract/%s",
-                protocol, serverHost, serverPort, Paths.get(auctionContract
+                .avatar(String.format("%s://%s/api/user/auction-contract/%s",
+                protocol, serverHost, Paths.get(auctionContract
                 .getAvatar()).getFileName().toString()))
                 .contractImage(contractImagePath)
                 .staffConfirm(UserResponse.builder()

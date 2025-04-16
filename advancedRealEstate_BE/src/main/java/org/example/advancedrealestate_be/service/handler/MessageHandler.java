@@ -83,6 +83,7 @@ public class MessageHandler implements MessageService {
         .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
         User recipient = userRepository.findByEmail(chatMessage.getRecipient())
         .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
+        // message.setMessageIndex(null);
         message.setContent(chatMessage.getContent());
         message.setRoomName(chatMessage.getRoomName());
         message.setType(String.valueOf(chatMessage.getType()));

@@ -53,7 +53,7 @@ public class ContractsHandlerService implements ContractsService {
     }
 
 
-    private String uploadDir = "uploads/contract/";
+    private String uploadDir = "/var/data/uploads/contract/";
 
     @Override
     public String updateFileContract(String contractId, ContractUpdateFileRequest request, MultipartFile file) {

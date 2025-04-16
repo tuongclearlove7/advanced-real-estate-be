@@ -20,13 +20,10 @@ import java.nio.file.Paths;
 @RequestMapping("/api/user")
 public class FileController {
 
-    private static final String IMAGE_DIRECTORY = "/tmp/IMAGE";
-    private static final String IMAGE_DIRECTORY1 = "uploads/images/";
-
     @GetMapping("/{fileName:.+}")
     public ResponseEntity<Resource> getFile(@PathVariable String fileName) {
         try {
-            Path filePath = Paths.get(IMAGE_DIRECTORY).resolve(fileName);
+            Path filePath = Paths.get("/var/data/uploads/user/images").resolve(fileName);
             Resource resource = new UrlResource(filePath.toUri());
 
             if (resource.exists() || resource.isReadable()) {
@@ -72,7 +69,7 @@ public class FileController {
     @GetMapping("/auction-contract/{fileName:.+}")
     public ResponseEntity<Resource> getFileAuctionContract(@PathVariable String fileName) {
         try {
-            Path filePath = Paths.get("/tmp/uploads/auction-contract/images").resolve(fileName);
+            Path filePath = Paths.get("/var/data/uploads/auction-contract/images").resolve(fileName);
             Resource resource = new UrlResource(filePath.toUri());
 
             if (resource.exists() || resource.isReadable()) {
@@ -87,7 +84,7 @@ public class FileController {
         }
     }
 
-    private final Path rootLocation = Paths.get("/tmp/uploads/contracts");
+    private final Path rootLocation = Paths.get("/var/data/uploads/contracts");
     @GetMapping("/contract/{fileName:.+}")
     public ResponseEntity<Resource> getFileContract(@PathVariable String fileName) {
         try {
